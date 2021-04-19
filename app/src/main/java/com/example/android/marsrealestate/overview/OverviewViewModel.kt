@@ -16,15 +16,17 @@ import retrofit2.Response
  */
 class OverviewViewModel : ViewModel() {
 
-    // The internal MutableLiveData String that stores the most recent response
-    private val _response = MutableLiveData<String>()
+    /* Internally, you should use a MutableLiveData, because you will be updating the List of
+    *  MarsProperty with new values. */
+    private val _marsProperties = MutableLiveData<List<MarsProperty>>()
 
-    // The external immutable LiveData for the response String
-    val response: LiveData<String>
-        get() = _response
+    /* The external LiveData interface to the List of MarsProperty is immutable, so only this
+   class can modify. */
+    val marsProperties: LiveData<List<MarsProperty>>
+        get() = _marsProperties
 
     /**
-     * Call getMarsRealEstateProperties() on init to display status immediately.
+     * Call getMarsRealEstateProperties() on init so we can display the Mars properties immediately.
      */
     init {
         getMarsRealEstateProperties()
@@ -39,10 +41,10 @@ class OverviewViewModel : ViewModel() {
             try {
                 val listResult = MarsApi.retrofitService.getMarsProperties()
                 // Update the response message for the successful response
-                _response.value = "Success: ${listResult.size} Mars properties retrieved"
+                _marsProperties.value = MarsApi.retrofitService.getMarsProperties()
             } catch (e: Exception) {
                 // Handle the failure response
-                _response.value = "Failure: ${e.message}"
+                _marsProperties.value = ArrayList()
             }
         }
     }
