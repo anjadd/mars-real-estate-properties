@@ -36,6 +36,10 @@ class OverviewFragment : Fragment() {
         // Giving the binding access to the OverviewViewModel
         binding.viewModel = viewModel
 
+        // Set the adapter of the RecyclerView
+        binding.rvMarsProperties.adapter = PhotoGridAdapter()
+
+
         setHasOptionsMenu(true)
         return binding.root
     }
