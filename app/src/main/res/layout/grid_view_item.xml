@@ -7,15 +7,38 @@
         <variable
             name="marsProperty"
             type="com.example.android.marsrealestate.network.MarsProperty" />
+
+        <import type="android.view.View" />
     </data>
 
-    <ImageView
-        android:id="@+id/mars_image"
+    <!-- Surround the entire image view with a FrameLayout, to allow the dollar-sign drawable
+    to be stacked on top of the property image. The $ sign should only be added to the properties
+    that are for sale. -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:adjustViewBounds="true"
-        android:padding="2dp"
-        android:scaleType="centerCrop"
-        app:imageUrl="@{marsProperty.imgSrcUrl}"
-        tools:src="@tools:sample/backgrounds/scenic" />
+        android:layout_height="170dp">
+
+        <ImageView
+            android:id="@+id/mars_image"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:adjustViewBounds="true"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{marsProperty.imgSrcUrl}"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <ImageView
+            android:id="@+id/mars_property_type"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="bottom|end"
+            android:adjustViewBounds="true"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_for_sale_outline"
+            android:visibility="@{marsProperty.rental ? View.GONE : View.VISIBLE}" />
+
+    </FrameLayout>
+
 </layout>
