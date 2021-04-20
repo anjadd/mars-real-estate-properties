@@ -6,9 +6,18 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 // Constant for the base URL for the web service
 private const val BASE_URL = "https://android-kotlin-fun-mars-server.appspot.com/"
+
+/* Create an enum called MarsApiFilter to define constants that match the query
+values the web service expects, when using the filter option in the Mars API. */
+enum class MarsApiFilter(val propertyType: String){
+    SHOW_RENT("rent"),
+    SHOW_BUY("buy"),
+    SHOW_ALL("all")
+}
 
 /**
  * Build the Moshi object that Retrofit will be using, with the Moshi builder.
@@ -40,11 +49,7 @@ interface MarsApiService {
      * https://android-kotlin-fun-mars-server.appspot.com/realestate
      * */
     @GET("realestate")
-    suspend fun getMarsProperties(): List<MarsProperty>
-
-    // Not recommended, with using callbacks instead of coroutines
-    @GET("realestate")
-    fun getMarsPropertiesWithCallbacks(): Call<List<MarsProperty>>
+    suspend fun getMarsProperties(@Query("filter") propertyType: String): List<MarsProperty>
 }
 
 /**

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.android.marsrealestate.R
 import com.example.android.marsrealestate.databinding.FragmentOverviewBinding
+import com.example.android.marsrealestate.network.MarsApiFilter
 
 /**
  * This fragment shows the the status of the Mars real-estate web services transaction.
@@ -39,7 +40,6 @@ class OverviewFragment : Fragment() {
         // Set the adapter of the RecyclerView
         binding.rvMarsProperties.adapter = PhotoGridAdapter()
 
-
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -50,5 +50,17 @@ class OverviewFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.overflow_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    /**
+     * Filter the Mars properties by type (rent/buy/all)
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.show_rent_menu -> viewModel.updateFilter(MarsApiFilter.SHOW_RENT)
+            R.id.show_buy_menu -> viewModel.updateFilter(MarsApiFilter.SHOW_BUY)
+            else -> viewModel.updateFilter(MarsApiFilter.SHOW_ALL)
+        }
+        return true
     }
 }

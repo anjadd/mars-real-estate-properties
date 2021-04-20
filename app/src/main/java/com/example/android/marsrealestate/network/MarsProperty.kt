@@ -11,4 +11,7 @@ data class MarsProperty(
         val price: Double,
         val type: String,
         @Json(name = "img_src") val imgSrcUrl: String,
-)
+) {
+    // Use a boolean to differentiate whether a property is for rent or not, based on the type
+    val isRental = type == "rent"
+}
