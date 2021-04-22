@@ -33,6 +33,13 @@ class OverviewViewModel : ViewModel() {
     val status: LiveData<MarsApiStatus>
         get() = _status
 
+    /* Navigation for the Detail fragment.
+    Create an event, whose changed value will trigger navigation to the DetailFragment. */
+    private val _navigateToMarsPropertyDetails = MutableLiveData<MarsProperty?>()
+
+    val navigateToMarsPropertyDetails: LiveData<MarsProperty?>
+        get() = _navigateToMarsPropertyDetails
+
 
     /**
      * Call getMarsRealEstateProperties() on init so we can display the Mars properties immediately.
@@ -65,7 +72,17 @@ class OverviewViewModel : ViewModel() {
 
     /* Call this method when the user selects an option from the overflow menu, and wants to filter
      the Mars properties by type: rent/buy/all, to update the web API request. */
-    fun updateFilter(filter: MarsApiFilter){
+    fun updateFilter(filter: MarsApiFilter) {
         getMarsRealEstateProperties(filter)
+    }
+
+    /**
+     * Create a function that sets _navigateToMarsPropertyDetails to the selected Mars property. */
+    fun displayMarsPropertyDetails(marsProperty: MarsProperty) {
+        _navigateToMarsPropertyDetails.value = marsProperty
+    }
+
+    fun onMarsPropertyDetailsNavigationDone() {
+        _navigateToMarsPropertyDetails.value = null
     }
 }

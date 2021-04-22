@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.marsrealestate.databinding.GridViewItemBinding
 import com.example.android.marsrealestate.network.MarsProperty
 
-class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.MarsPropertyViewHolder>(MarsPropertyDiffCallback) {
+class PhotoGridAdapter(val clickListener: MarsPropertyListener) : ListAdapter<MarsProperty, PhotoGridAdapter.MarsPropertyViewHolder>(MarsPropertyDiffCallback) {
 
     /**
      * Create a new ViewHolder object.*/
@@ -21,7 +21,7 @@ class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.MarsProperty
      * */
     override fun onBindViewHolder(holder: MarsPropertyViewHolder, position: Int) {
         val marsProperty = getItem(position)
-        holder.bind(marsProperty)
+        holder.bind(marsProperty, clickListener)
     }
 
     /**
@@ -42,8 +42,10 @@ class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.MarsProperty
         /**
          * Create a bind() method in the VH class, which populates the list item with data.
          * Call executePendingBindings() to execute the update immediately. */
-        fun bind(marsProperty: MarsProperty) {
+        fun bind(marsProperty: MarsProperty, clickListener: MarsPropertyListener) {
             binding.marsProperty = marsProperty
+            // Assign the click listener to the binding object
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
     }
@@ -59,5 +61,14 @@ class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.MarsProperty
         override fun areContentsTheSame(oldItem: MarsProperty, newItem: MarsProperty): Boolean {
             return oldItem == newItem
         }
+    }
+}
+
+/**
+ * Define a Click listener
+ */
+class MarsPropertyListener(val clickListener: (marsProperty: MarsProperty) -> Unit) {
+    fun onClick(marsProperty: MarsProperty) {
+        clickListener(marsProperty)
     }
 }
