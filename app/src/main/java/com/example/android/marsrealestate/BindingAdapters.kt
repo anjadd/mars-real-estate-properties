@@ -2,6 +2,7 @@ package com.example.android.marsrealestate
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -54,5 +55,39 @@ fun bindMarsApiStatus(statusImageView: ImageView, status: MarsApiStatus?) {
             statusImageView.visibility = View.VISIBLE
             statusImageView.setImageResource(R.drawable.ic_connection_error)
         }
+    }
+}
+
+/**
+ * Add a binding adapter for the property type TextView in the Details fragment, that will show
+ * a different text "For Sale" or "For Rent", based on the property type. */
+@BindingAdapter("propertyType")
+fun displayMarsPropertyType(typeTextView: TextView, isRental: Boolean) {
+
+    // Get the resources from the TextView
+    val resources = typeTextView.resources
+    val rentTypeString = resources.getString(R.string.type_rent)
+    val saleTypeString = resources.getString(R.string.type_sale)
+
+    when (isRental) {
+        true -> typeTextView.text = resources.getString(R.string.display_type, rentTypeString)
+        false -> typeTextView.text = resources.getString(R.string.display_type, saleTypeString)
+    }
+}
+
+/**
+ * Add a binding adapter for the property price TextView in the Details fragment, that will show
+ * a different text "$500.000" or "$500.000/month", based on the property type. */
+@BindingAdapter("propertyPrice")
+fun displayMarsPropertyPrice(priceValueText: TextView, marsProperty: MarsProperty) {
+
+    // Get the resources from the TextView
+    val resources = priceValueText.resources
+
+    when (marsProperty.type == "rent") {
+        true -> priceValueText.text = resources
+                .getString(R.string.display_price_monthly_rental, marsProperty.price)
+        false -> priceValueText.text = resources
+                .getString(R.string.display_price, marsProperty.price)
     }
 }

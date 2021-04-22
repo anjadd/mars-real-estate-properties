@@ -9,6 +9,10 @@
             type="com.example.android.marsrealestate.network.MarsProperty" />
 
         <import type="android.view.View" />
+
+        <variable
+            name="clickListener"
+            type="com.example.android.marsrealestate.overview.MarsPropertyListener" />
     </data>
 
     <!-- Surround the entire image view with a FrameLayout, to allow the dollar-sign drawable
@@ -16,7 +20,8 @@
     that are for sale. -->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp">
+        android:layout_height="170dp"
+        android:onClick="@{() -> clickListener.onClick(marsProperty)}">
 
         <ImageView
             android:id="@+id/mars_image"
